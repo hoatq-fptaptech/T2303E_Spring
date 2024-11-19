@@ -1,10 +1,9 @@
 package com.example.t2303e_spring.controller;
 
+import com.example.t2303e_spring.model.request.ProductRequest;
 import com.example.t2303e_spring.model.response.ProductResponse;
 import com.example.t2303e_spring.service.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +19,20 @@ public class ProductController {
     @GetMapping()
     public List<ProductResponse> getAllProduct(){
         return productService.getAll();
+    }
+
+    @PostMapping()
+    public ProductResponse createProduct(@RequestBody ProductRequest req){
+        return productService.createProduct(req);
+    }
+
+    @PutMapping("/{id}")
+    public ProductResponse updateProduct(@PathVariable Long id, @RequestBody ProductRequest req){
+        return productService.updateProduct(id,req);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
     }
 }
