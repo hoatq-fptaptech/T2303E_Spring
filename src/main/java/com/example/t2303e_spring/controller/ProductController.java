@@ -35,4 +35,18 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
     }
+
+    @GetMapping("/search")
+    public List<ProductResponse> search(@RequestParam String search){
+        return productService.search(search);
+    }
+
+    @GetMapping("/filter")
+    public List<ProductResponse> filter(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer minPrice,
+            @RequestParam(required = false) Integer maxPrice
+    ){
+        return productService.filter(name,minPrice,maxPrice);
+    }
 }

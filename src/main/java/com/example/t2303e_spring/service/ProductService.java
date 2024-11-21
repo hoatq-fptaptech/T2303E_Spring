@@ -60,4 +60,17 @@ public class ProductService {
     public void deleteProduct(Long id){
         productRepository.deleteById(id);
     }
+    public List<ProductResponse> search(String q){
+        List<ProductResponse> data = new ArrayList<>();
+        productRepository.findAllByNameContainingOrDescriptionContaining(q,q)
+                    .forEach(p->data.add(ProductResponse.getProduct(p)));
+        return data;
+    }
+
+    public List<ProductResponse> filter(String name, Integer minPrice, Integer maxPrice){
+        List<ProductResponse> data = new ArrayList<>();
+        productRepository.filterProducts(name,minPrice,maxPrice)
+                .forEach(p->data.add(ProductResponse.getProduct(p)));
+        return data;
+    }
 }
