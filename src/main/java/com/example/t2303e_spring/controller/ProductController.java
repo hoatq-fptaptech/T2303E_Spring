@@ -3,6 +3,7 @@ package com.example.t2303e_spring.controller;
 import com.example.t2303e_spring.model.request.ProductRequest;
 import com.example.t2303e_spring.model.response.ProductResponse;
 import com.example.t2303e_spring.service.ProductService;
+import com.example.t2303e_spring.service.RabbitMQProducer;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,13 +12,15 @@ import java.util.List;
 @RequestMapping("/api/v1/products")
 public class ProductController {
     private ProductService productService;
-
-    public ProductController(ProductService productService) {
+    private final RabbitMQProducer producer;
+    public ProductController(ProductService productService, RabbitMQProducer producer) {
         this.productService = productService;
+        this.producer = producer;
     }
 
     @GetMapping()
     public List<ProductResponse> getAllProduct(){
+        producer.sendMessage("Đơn hàng đã được đặt");
         return productService.getAll();
     }
 
